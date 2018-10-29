@@ -1,8 +1,16 @@
+from flask import Flask
+from flask import render_template
 import os
 import kafka_helper
 import json
 import asyncio
 import websockets
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 topic = "{}temp".format(os.environ["KAFKA_PREFIX"])
 consumer = kafka_helper.get_kafka_consumer(topic=topic)
