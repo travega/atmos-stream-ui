@@ -1,9 +1,33 @@
 <html>
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
       body {
         font-family: "Helvetica Neue", helvetica, arial;
+        color: white;
         padding: 15px;
+        text-align: center;
+        background-color: #333333;
+      }
+
+      #readings-container {
+        width: 100%;
+        height: 100%;
+        float: left;
+        padding-top: 4em;
+      }
+
+      #temp-container, 
+      #humidity-container, 
+      #pressure-container {
+        width: 33.333333333%;
+        height: auto;
+        float: left;
+      }
+
+      span {
+        font-size: 6em;
+        font-weight: 900;
       }
 
       ul {
@@ -18,17 +42,64 @@
     </style>
 
     <script>
-      var host = location.origin.replace(/^http/, 'ws')
-      var ws = new WebSocket(host);
+      // var host = location.origin.replace(/^http/, 'ws')
+      var ws = new WebSocket("ws://localhost:8765");
+
       ws.onmessage = function (event) {
-        var li = document.createElement('li');
-        li.innerHTML = JSON.parse(event.data);
-        document.querySelector('#pings').appendChild(li);
+        var payload = JSON.parse(event.data);
+        var tempVal = payload.temp;
+        var humidityVal = payload.humidity;
+        var pressureVal = payload.pressure;
+        
+        $temp = $('#temp')
+        $humidity = $('#humidity');
+        $pressure = $('#pressure');
+        
+        $temp.html(tempVal);
+        $humidity.html(humidityVal);
+        $pressure.html(pressureVal);
+
+        warningColour($temp, tempVal, 30, WARNING);
+        warningColour($temp, tempVal, 40, DANGER);
+        warningColour($humidity, humidityVal, 25, WARNING);
+        warningColour($humidity, humidityVal, 30, DANGER);
+        warningColour($pressure, pressureVal, 1013, WARNING);
+        warningColour($pressure, pressureVal, 1014, DANGER);
       };
+
+      const WARNING="#FF8000";
+      const DANGER="#DF0101";
+
+      function warningColour(sensor, sensorVal, threshold, warningLevel) {
+        if (sensorVal > threshold) {
+          sensor.css({"color": warningLevel});
+        } else {
+          sensor.css({"color": "white"});
+        }
+      }
     </script>
   </head>
   <body>
-    <h1>Pings</h1>
-    <ul id='pings'></ul>
+    <div id="readings-container">
+      <div id="temp-container">
+        <h1>Temperature</h1>
+        <div>
+          <span id='temp'></span>
+        </div>
+        <div id="chart"></div>
+      </div>
+      <div id="humidity-container">
+        <h1>Humidity</h1>
+        <div>
+          <span id='humidity'></span>
+        </div>
+      </div>
+      <div id="pressure-container">
+        <h1>Pressure</h1>
+        <div>
+          <span id='pressure'></span>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

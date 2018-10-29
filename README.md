@@ -1,4 +1,4 @@
-# Node.js Websocket Test
+# Websocket Receiver
 
 A tiny demo using the [einaros/ws](http://einaros.github.io/ws/) WebSockets implementation.
 
