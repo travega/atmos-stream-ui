@@ -1,2 +1,2 @@
 web: npm start
-worker: py consumer.py
+worker: python3 consumer.py
