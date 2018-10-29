@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_templates
+from flask import render_template
 import os
 import kafka_helper
 import json
