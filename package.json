@@ -1,9 +1,9 @@
 {
-  "name": "node-ws-test",
+  "name": "atmos-stream-ui",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku-examples/node-ws-test.git"
+    "url": "https://github.com/travega/atmos-stream-ui.git"
   },
   "dependencies": {
     "express": "^4.4.5",
