@@ -1,16 +1,16 @@
 from flask import Flask
-from flask import render_template
+# from flask import render_template
 import os
 import kafka_helper
 import json
 import asyncio
 import websockets
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+# @app.route("/")
+# def index():
+#     return render_template("index.html", port=os.environ["WS_PORT"])
 
 topic = "{}temp".format(os.environ["KAFKA_PREFIX"])
 consumer = kafka_helper.get_kafka_consumer(topic=topic)
@@ -22,5 +22,5 @@ async def echo(websocket, path):
         print (message)
         await websocket.send(json.dumps(message.value))
 
-asyncio.get_event_loop().run_until_complete(websockets.serve(echo, 'localhost', 8765))
+asyncio.get_event_loop().run_until_complete(websockets.serve(echo, 'localhost', os.environ["PORT"]))
 asyncio.get_event_loop().run_forever()

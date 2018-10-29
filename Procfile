@@ -1,1 +1,2 @@
-web: gunicorn consumer:app
+web: npm start
+worker: python3 consumer.py
