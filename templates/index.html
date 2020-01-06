@@ -42,8 +42,10 @@
     </style>
 
     <script>
-      var host = location.origin.replace(/^http/, 'ws')
-      var ws = new WebSocket(host);
+      // var host = location.origin.replace(/^http/, 'ws')
+      var ws = new WebSocket("ws://localhost:8765");
+      const WARNING="#FF8000";
+      const DANGER="#DF0101";
 
       ws.onmessage = function (event) {
         var payload = JSON.parse(event.data);
@@ -66,9 +68,6 @@
         warningColour($pressure, pressureVal, 1013, WARNING);
         warningColour($pressure, pressureVal, 1014, DANGER);
       };
-
-      const WARNING="#FF8000";
-      const DANGER="#DF0101";
 
       function warningColour(sensor, sensorVal, threshold, warningLevel) {
         if (sensorVal > threshold) {

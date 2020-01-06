@@ -22,5 +22,5 @@ async def echo(websocket, path):
         print (message)
         await websocket.send(json.dumps(message.value))
 
-asyncio.get_event_loop().run_until_complete(websockets.serve(echo, 'localhost', os.environ["PORT"]))
+asyncio.get_event_loop().run_until_complete(websockets.serve(echo, 'localhost', '8765'))
 asyncio.get_event_loop().run_forever()
